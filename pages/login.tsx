@@ -1,0 +1,121 @@
+import { useState, FormEventHandler, ChangeEvent, FormEvent } from 'react';
+
+import { auth } from '../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
+
+import useUser from '../hooks/useUser';
+
+import Logo from '../components/Layout/Logo/Logo';
+
+import {
+  LoginContainer,
+  LoginTitleWrapper,
+  LoginTitle,
+  LoginInput,
+  LoginButton,
+  LoginGuideWrapper,
+} from '../pages_styles/login.styles';
+
+import { getInputValidityMessage } from '../utils/getInputValidityMessage';
+
+const provider = new GoogleAuthProvider();
+
+const Login = () => {
+  useUser({ requiredValidConfirm: true });
+
+  const [hasAccount, setHasAccount] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleHasAccount = () => {
+    setHasAccount(!hasAccount);
+  };
+
+  const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const noticeInvalidMessage = (e: FormEvent<HTMLInputElement>) => {
+    const input = e.target as HTMLInputElement;
+    input.setCustomValidity(getInputValidityMessage(input.validity) || '');
+  };
+
+  const loginWithSocial = () => {
+    signInWithPopup(auth, provider).catch((error) => {
+      alert('존재하지 않는 회원입니다.');
+    });
+  };
+
+  const loginWithEmailAndPassword: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      alert('존재하지 않는 회원입니다.');
+    });
+  };
+
+  const signupWithEmailAndPassword: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert('가입에 성공하셨습니다.');
+      })
+      .catch((error) => {
+        alert('이미 존재하는 이메일 입니다.');
+      });
+  };
+
+  return (
+    <LoginContainer>
+      <Logo />
+      <form
+        onSubmit={
+          hasAccount ? loginWithEmailAndPassword : signupWithEmailAndPassword
+        }
+      >
+        <LoginTitleWrapper>
+          <LoginTitle>
+            {hasAccount ? '이메일로 로그인' : '이메일로 회원가입'}
+          </LoginTitle>
+        </LoginTitleWrapper>
+        <LoginInput
+          required
+          type="email"
+          placeholder="이메일을 입력하세요."
+          onChange={changeEmail}
+        />
+        <LoginInput
+          required
+          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+          type="password"
+          placeholder="패스워드를 입력하세요."
+          onChange={changePassword}
+          onInvalid={noticeInvalidMessage}
+        />
+        <LoginButton type="submit">
+          {hasAccount ? '로그인' : '회원가입'}
+        </LoginButton>
+      </form>
+      <LoginGuideWrapper>
+        <span>{hasAccount ? '회원이 아니신가요?' : '계정이 있으신가요?'}</span>
+        <button type="button" onClick={handleHasAccount}>
+          {hasAccount ? '회원가입' : '로그인'}
+        </button>
+      </LoginGuideWrapper>
+      <LoginTitleWrapper>
+        <LoginTitle>소셜 계정으로 로그인</LoginTitle>
+      </LoginTitleWrapper>
+      <LoginButton onClick={loginWithSocial}>Continue with Google</LoginButton>
+    </LoginContainer>
+  );
+};
+
+export default Login;
