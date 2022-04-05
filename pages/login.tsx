@@ -50,16 +50,24 @@ const Login = () => {
   };
 
   const loginWithSocial = () => {
-    signInWithPopup(auth, provider).catch((error) => {
-      alert('존재하지 않는 회원입니다.');
-    });
+    signInWithPopup(auth, provider)
+      .then(() => {
+        window.location.href = '/';
+      })
+      .catch((error) => {
+        alert('존재하지 않는 회원입니다.');
+      });
   };
 
   const loginWithEmailAndPassword: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password).catch((error) => {
-      alert('존재하지 않는 회원입니다.');
-    });
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        window.location.href = '/';
+      })
+      .catch((error) => {
+        alert('존재하지 않는 회원입니다.');
+      });
   };
 
   const signupWithEmailAndPassword: FormEventHandler<HTMLFormElement> = (e) => {
@@ -67,6 +75,7 @@ const Login = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         alert('가입에 성공하셨습니다.');
+        window.location.href = '/';
       })
       .catch((error) => {
         alert('이미 존재하는 이메일 입니다.');

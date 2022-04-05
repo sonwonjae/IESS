@@ -23,17 +23,11 @@ const useUser = ({
     onAuthStateChanged(auth, (user) => {
       if (!isMounted) return;
 
-      if (requiredValidConfirm && !user) {
-        window.location.href = '/login';
+      if (requiredValidConfirm) {
+        const isLoginPage = window.location.pathname === '/login';
+        if (!user && !isLoginPage) window.location.href = '/login';
+        if (user && isLoginPage) window.location.href = '/';
         return;
-      }
-
-      if (
-        requiredValidConfirm &&
-        user &&
-        window.location.pathname === '/login'
-      ) {
-        window.location.href = '/';
       }
 
       dispatch(setAccount(user));
