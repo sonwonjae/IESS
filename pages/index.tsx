@@ -1,14 +1,16 @@
 import type { NextPage } from 'next';
-import Link from 'next/link';
-import Head from 'next/head';
-import Image from 'next/image';
-import { app, auth, createUserWithEmailAndPassword } from '../src/firebase';
+
+import useUser from '../hooks/useUser';
+
+import Layout from '../components/Layout/Layout';
 
 const Home: NextPage = () => {
+  const { user, isLoading } = useUser();
+
   return (
-    <Link href="/interview-list">
-      <a>면접 연습하기</a>
-    </Link>
+    <Layout user={user} isLoading={isLoading}>
+      Home
+    </Layout>
   );
 };
 
