@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "env-cmd -f .env.local next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -13,7 +13,6 @@
     "@types/lodash.throttle": "^4.1.7",
     "@types/uuid": "^8.3.4",
     "axios": "^0.26.1",
-    "env-cmd": "^10.1.0",
     "firebase": "^9.6.10",
     "firebaseui": "^6.0.1",
     "lodash.debounce": "^4.0.8",
