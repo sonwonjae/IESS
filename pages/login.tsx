@@ -1,17 +1,17 @@
 import { useState, FormEventHandler, ChangeEvent, FormEvent } from 'react';
 
-import { auth } from '../firebase';
+import { auth } from '../firebase.js';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  updateProfile,
 } from 'firebase/auth';
 
 import useUser from '../hooks/useUser';
 
-import Logo from '../components/Layout/Logo/Logo';
-
+import Logo from '../components/Common/Logo/Logo';
 import {
   LoginContainer,
   LoginTitleWrapper,
@@ -19,7 +19,7 @@ import {
   LoginInput,
   LoginButton,
   LoginGuideWrapper,
-} from '../pages_styles/login.styles';
+} from '../components/Login/Login.styled';
 
 import { getInputValidityMessage } from '../utils/getInputValidityMessage';
 
@@ -31,6 +31,7 @@ const Login = () => {
   const [hasAccount, setHasAccount] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   const handleHasAccount = () => {
     setHasAccount(!hasAccount);
@@ -42,6 +43,9 @@ const Login = () => {
 
   const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+  const changeName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
   };
 
   const noticeInvalidMessage = (e: FormEvent<HTMLInputElement>) => {
@@ -73,7 +77,11 @@ const Login = () => {
   const signupWithEmailAndPassword: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then(({ user }) => {
+        updateProfile(user, {
+          displayName: name,
+        });
+
         alert('가입에 성공하셨습니다.');
         window.location.href = '/';
       })
@@ -109,6 +117,15 @@ const Login = () => {
           onChange={changePassword}
           onInvalid={noticeInvalidMessage}
         />
+        {!hasAccount && (
+          <LoginInput
+            required
+            type="text"
+            pattern="^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$"
+            placeholder="이름을 입력해주세요."
+            onChange={changeName}
+          />
+        )}
         <LoginButton type="submit">
           {hasAccount ? '로그인' : '회원가입'}
         </LoginButton>

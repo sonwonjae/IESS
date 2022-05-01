@@ -31,7 +31,7 @@ const Navigation = ({ children }: NavigationProps) => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  });
+  },[isMobile, isShowNav]);
 
   const toggleIsShowNav: MouseEventHandler<HTMLButtonElement> = (e) => {
     if (e.target !== e.currentTarget) return;

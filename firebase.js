@@ -1,5 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -15,4 +17,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export { app, auth };
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+function deleteAtPath(path) {
+  var deleteFn = httpsCallable(getFunctions(app), 'recursiveDelete');
+  deleteFn({ path: path })
+    .then(function (result) {
+      console.log('Delete success: ' + JSON.stringify(result));
+    })
+    .catch(function (err) {
+      console.log('Delete failed, see console,');
+      console.warn(err);
+    });
+}
+
+export { app, auth, db, deleteAtPath };

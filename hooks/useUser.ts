@@ -1,6 +1,6 @@
 import { RootState } from './../store/index';
 
-import { auth } from '../firebase';
+import { auth } from '../firebase.js';
 import { onAuthStateChanged } from 'firebase/auth';
 
 import { useEffect } from 'react';
@@ -25,8 +25,11 @@ const useUser = ({
 
       if (requiredValidConfirm) {
         const isLoginPage = window.location.pathname === '/login';
+        console.log({ user, isLoginPage });
         if (!user && !isLoginPage) window.location.href = '/login';
         if (user && isLoginPage) window.location.href = '/';
+
+        if (user) dispatch(setAccount(user));
         return;
       }
 
@@ -36,7 +39,7 @@ const useUser = ({
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [isLoading]);
 
   return { user, isLoading };
 };

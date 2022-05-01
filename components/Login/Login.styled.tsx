@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { CommonButton } from '../components/Layout/Header/Header.styled';
-import { color } from '../constants/color';
+import { CommonButton } from '../Common/Button/Button.styled';
+
+import { color } from '../../constants/color';
 
 export const LoginContainer = styled.div`
   margin: 0 auto;

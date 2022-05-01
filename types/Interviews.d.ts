@@ -1,20 +1,17 @@
-interface InterviewTestQuestion {
-  id: string;
-  title: string;
-  answer: string;
-  IsPrivate: boolean;
-}
-interface InterviewNoteQuestion extends InterviewTestQuestion {
-  group: string;
-}
-
-type InterviewTest = InterviewTestQuestion[];
-type InterviewNote = InterviewNoteQuestion[];
-
 interface Interview {
-  id: string;
   title: string;
-  test: InterviewTest;
-  note: InterviewNote;
+  created_by: number;
 }
-type Interviews = Interview[];
+
+interface InterviewInList extends Interview {
+  interviewId: string;
+}
+
+interface Interviews {
+  [interviewId: string]: Interview;
+}
+interface ResInterviews {
+  headId: string | null;
+  tailId: string | null;
+  interviews: Interviews;
+}

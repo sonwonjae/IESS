@@ -5,6 +5,7 @@ import logger from 'redux-logger';
 import { Account } from './slices/accountSlice';
 
 import reducer from './slices';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 
 const makeStore = (context: Context) =>
   configureStore({
@@ -19,4 +20,17 @@ export const wrapper = createWrapper<Store<RootState>>(makeStore, {
 
 export type RootState = {
   account: Account;
+  interviews: {
+    head: string | null;
+    tail: string | null;
+    order: {
+      [interviewId: string]: {
+        prevId: string | null;
+        nextId: string | null;
+      };
+    };
+    interviews: Interviews;
+  };
+  userQuestions: InterviewsWithUserQuestion;
+  questions: { questions: Questions; nextQuestionId: string };
 };

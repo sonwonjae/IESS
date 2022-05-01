@@ -18,6 +18,7 @@ export const Nav = styled.nav`
 export const NavButton = styled.button`
   position: relative;
   width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
   margin-left: 1rem;
   background-color: transparent;

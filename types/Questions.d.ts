@@ -1,8 +1,14 @@
 interface Question {
-  id: string;
-  title: string;
+  question: string;
   like: number;
   write_by: string;
+  isPrivate: boolean;
+  created_by: number;
+  liked_users: {
+    [userId: string]: boolean;
+  };
 }
 
-type Questions = Question[];
+type Questions = {
+  [questionId: string]: Question;
+};
