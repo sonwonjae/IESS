@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps =
     const {
       data: { questions, nextQuestionId },
     } = await axios.get(
-      `http://localhost:3000/api/questions?searchKeyword=${encodingSearchKeyword}`
+      `https://iess-sonwonjae.vercel.app/api/questions?searchKeyword=${encodingSearchKeyword}`
     );
 
     store.dispatch(setQuestions({ questions, nextQuestionId }));
