@@ -5,12 +5,12 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_APP_ID,
+  apiKey: 'AIzaSyCGZhS6hr6mcuQ0YAP_yRmpToogMVZVFHI',
+  authDomain: 'iess-30a98.firebaseapp.com',
+  projectId: 'iess-30a98',
+  storageBucket: 'iess-30a98.appspot.com',
+  messagingSenderId: '1091954782159',
+  appId: '1:1091954782159:web:e3b4b70656a58e35caecba',
 };
 
 // Initialize Firebase
