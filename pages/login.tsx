@@ -70,6 +70,7 @@ const Login = () => {
         window.location.href = '/';
       })
       .catch((error) => {
+        console.log({ error });
         alert('존재하지 않는 회원입니다.');
       });
   };
@@ -86,6 +87,7 @@ const Login = () => {
         window.location.href = '/';
       })
       .catch((error) => {
+        console.log({ error });
         alert('이미 존재하는 이메일 입니다.');
       });
   };
